@@ -2,21 +2,23 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-const loadScript = (url) => {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = url;
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  };
+// const loadScript = (url) => {
+//     return new Promise((resolve, reject) => {
+//       const script = document.createElement('script');
+//       script.src = url;
+//       script.onload = resolve;
+//       script.onerror = reject;
+//       document.head.appendChild(script);
+//     });
+//   };
   
-  loadScript('/src/assets/vendor/aos/aos.js').then(() => {
-    // Script file loaded successfully
-  }).catch(() => {
-    // Error loading script file
-  });
+//   loadScript('/src/assets/vendor/aos/aos.js').then(() => {
+//   }).catch(() => {
+//   });
+// Add the Vue.js CDN
+const script = document.createElement('script');
+script.src = 'https://unpkg.com/aos@next/dist/aos.js';
+document.head.appendChild(script);
 
 //importing css from assets 
 

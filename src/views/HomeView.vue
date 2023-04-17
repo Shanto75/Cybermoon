@@ -1,7 +1,5 @@
 <script>
-import { getPosts } from '../api.js';
-import { getPostsById } from '../api.js';
-import { getCategories } from "../api.js";
+import { getPosts, getPostsById, getCategories } from '../api.js';
 import { reactive } from 'vue';
 
 export default {
@@ -14,13 +12,15 @@ export default {
 
     async function fetchData() {
       state.categories = await getCategories();
-      console.log(state.categories);
+      // console.log(state.categories);
 
       await Promise.all(
         state.categories.map(async (category) => {
           state.categoryPosts[category.name] = await getPostsById(category.id);
         })
       );
+
+      // console.log(state.categoryPosts['Culture'].length);
     }
     fetchData();
 
@@ -32,16 +32,16 @@ export default {
   data() {
     return {
       posts: [],
-      categoryPosts:[],
+      // categoryPosts:[],
       categories: [],
       loading: true,
     };
   },
   async mounted() {
-    this.categories = await getCategories();
-    this.categories.forEach( async (category) =>{
-      this.categoryPosts[category.name] = await getPostsById(category.id);
-    })
+    // this.categories = await getCategories();
+    // this.categories.forEach( async (category) =>{
+    //   this.categoryPosts[category.name] = await getPostsById(category.id);
+    // })
     
     this.posts = await getPosts();
     this.loading = false;
@@ -111,7 +111,7 @@ export default {
       </div>
     </section> <!-- End Post Grid Section -->
 
-    <section class="posts">
+    <!-- <section class="posts">
       <div v-for="categoryPosts in state.categoryPosts" :key="categoryPosts" class="container" data-aos="fade-up">
         <div v-if="categoryPosts.length > 0 ">
           <div class="section-header d-flex justify-content-between align-items-center mb-5">
@@ -131,7 +131,29 @@ export default {
             </div>
           </div>
         </div>
+      </div>
+    </section> -->
 
+    <section class="posts">
+      <div v-for="category in state.categories " :key="category" class="container" data-aos="fade-up">
+        <div v-if="state.categoryPosts && state.categoryPosts[category.name] && state.categoryPosts[category.name].length > 0">
+          <div class="section-header d-flex justify-content-between align-items-center mb-5">
+            <h2>{{ category.name }}</h2>
+            <div><router-link :to="'/blogList/' + category.id" class="more">See All</router-link></div>
+          </div>
+  
+          <div class="row row-cols-auto">
+            <div v-for="catPost in state.categoryPosts[category.name]" :key="catPost.id" class="col-lg-3 col-md-6 ">
+              <div v-if="catPost" class="post-entry-1">
+                <router-link :to="'/blog/' + catPost.id"><img :src="catPost?._embedded?.['wp:featuredmedia']?.[0]?.source_url" alt="" class="img-fluid"></router-link>
+                <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span>{{ catPost.date }}</span></div>
+                <h2>
+                  <router-link :to="'/blog/' + catPost.id" >{{ catPost.title.rendered }}</router-link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

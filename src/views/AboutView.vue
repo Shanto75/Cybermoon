@@ -10,18 +10,21 @@ export default {
   async mounted() {
     this.about = await getAboutPage();
     this.loading = false;
-    console.log(this.about);
+    // console.log(this.about);
   },
 };
 </script>
 
 <template>
   <main id="main">
-    <div v-if="loading" class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div v-if="loading" class="min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
+    
     <div v-else class="container py-4">
       <h1 class="text-center" :textContent="about.title.rendered"></h1>
       <div v-html="about.content.rendered" class="my-4">

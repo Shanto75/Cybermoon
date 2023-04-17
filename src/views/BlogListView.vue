@@ -30,7 +30,7 @@ export default {
         this.posts = await getPostsById(this.$route.params.categoryId);
         this.categoryId = this.$route.params.categoryId;
         this.loading = false;
-        console.log(this.posts);
+        // console.log(this.posts);
       } catch (error) {
         console.error(error);
       }
