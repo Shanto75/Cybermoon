@@ -1,9 +1,11 @@
 import axios from 'axios';
-const apiBaseUrl  = 'http://localhost/cybermoon/wp-json/wp/v2';
+var  apiBaseUrl  = import.meta.env.VITE_API_BASE;
+// var  apiBaseUrl  = 'http://localhost/cybermoon/wp-json/wp/v2';
+// var  apiBaseUrl  = 'https://cybermoon.epizy.com/backend/wp-json/wp/v2';
 
 export async function getCategories() {
     try {
-        const response = await axios.get(apiBaseUrl+'/categories');
+        var  response = await axios.get(apiBaseUrl+'/categories');
         // return  JSON.stringify(response.data);
         return response.data.filter((data)=>{
             return data.name != 'Uncategorized';
@@ -15,7 +17,7 @@ export async function getCategories() {
 
 export async function getPosts() {
     try {
-        const response = await axios.get(apiBaseUrl+'/posts?_embed');
+        var  response = await axios.get(apiBaseUrl+'/posts?_embed');
         return response.data;
     } catch (error) {
         console.error(error.message);
@@ -24,7 +26,7 @@ export async function getPosts() {
 
 export async function getPostsById(id) {
     try {
-        const response = await axios.get(apiBaseUrl+'/posts?categories='+id+'&_embed');
+        var  response = await axios.get(apiBaseUrl+'/posts?categories='+id+'&_embed');
         return response.data;
     } catch (error) {
         console.error(error.message);
@@ -33,7 +35,7 @@ export async function getPostsById(id) {
 
 export async function getPost(id) {
     try {
-        const response = await axios.get(apiBaseUrl+'/posts/'+id+'?_embed');
+        var  response = await axios.get(apiBaseUrl+'/posts/'+id+'?_embed');
         return response.data;
     } catch (error) {
         console.error(error.message);
@@ -42,7 +44,7 @@ export async function getPost(id) {
 
 export async function getAboutPage() {
     try {
-        const response = await axios.get(apiBaseUrl+'/pages?search=About&per_page=1');
+        var  response = await axios.get(apiBaseUrl+'/pages?search=About&per_page=1');
         return response.data[0];
     } catch (error) {
         console.error(error.message);
